@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ArraySchema;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -13,20 +14,32 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String PACKAGE_URL = "packageUrl";
 
-    protected String packageName; // e.g. petstore_api
+    protected String packageVersion = "1.0.0";
+    protected String projectName; // for setup.py, e.g. petstore-api
+    protected String packageUrl;
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
+
+    protected String packageName = "openapi_client";
 
     static Logger LOGGER = LoggerFactory.getLogger(GdscriptClientCodegen.class);
 
     protected Map<Character, String> regexModifiers;
+
+    private String testFolder;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -43,6 +56,10 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public GdscriptClientCodegen() {
         super();
 
+
+        supportsInheritance = true;
+        modelPackage = "models";
+
         outputFolder = "generated-code" + File.separator + "gdscript";
         modelTemplateFiles.put("model.mustache", ".gd.inc");
         apiTemplateFiles.put("api.mustache", ".gd");
@@ -51,7 +68,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        
+
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("float");
@@ -62,7 +79,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.add("datetime");
         languageSpecificPrimitives.add("date");
         languageSpecificPrimitives.add("object");
-
 
         instantiationTypes.put("map", "dict");
 
@@ -87,69 +103,17 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
 
-        // from https://godot.readthedocs.io/en/3.0/getting_started/scripting/gdscript/gdscript_basics.html#keywords
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                    "Empty",
-                    "Identifier",
-                    "Constant",
-                    "Self",
-                    "Built-In Type",
-                    "Built-In Func",
-                    "In",
-                    //
-                    "if",
-                    "elif",
-                    "else",
-                    "for",
-                    "do",
-                    "while",
-                    "switch (reserved)",
-                    "case (reserved)",
-                    "break",
-                    "continue",
-                    "pass",
-                    "return",
-                    "match",
-                    "func",
-                    "class",
-                    "class_name",
-                    "extends",
-                    "is",
-                    "onready",
-                    "tool",
-                    "static",
-                    "export",
-                    "setget",
-                    "const",
-                    "var",
-                    "as",
-                    "void",
-                    "enum",
-                    "preload",
-                    "assert",
-                    "yield",
-                    "signal",
-                    "breakpoint",
-                    "rpc",
-                    "sync",
-                    "master",
-                    "puppet",
-                    "slave",
-                    "remotesync",
-                    "mastersync",
-                    "puppetsync",
-                    //
-                    "PI",
-                    "TAU",
-                    "_",
-                    "INF",
-                    "NAN",
-                    "Error",
-                    "EOF",
-                    "Cursor"
-                )
-        );
+        // from
+        // https://godot.readthedocs.io/en/3.0/getting_started/scripting/gdscript/gdscript_basics.html#keywords
+        setReservedWordsLowerCase(Arrays.asList("Empty", "Identifier", "Constant", "Self", "Built-In Type",
+                "Built-In Func", "In",
+                //
+                "if", "elif", "else", "for", "do", "while", "switch (reserved)", "case (reserved)", "break", "continue",
+                "pass", "return", "match", "func", "class", "class_name", "extends", "is", "onready", "tool", "static",
+                "export", "setget", "const", "var", "as", "void", "enum", "preload", "assert", "yield", "signal",
+                "breakpoint", "rpc", "sync", "master", "puppet", "slave", "remotesync", "mastersync", "puppetsync",
+                //
+                "PI", "TAU", "_", "INF", "NAN", "Error", "EOF", "Cursor"));
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");
@@ -162,19 +126,374 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "gdscript package name (convention: snake_case).")
                 .defaultValue("swgclient"));
-        cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "gdscript project name in setup.gd (e.g. petstore-api)."));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "gdscript package version.")
-                .defaultValue("1.0.0"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PROJECT_NAME, "gdscript project name in setup.gd (e.g. petstore-api)."));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "gdscript package version.").defaultValue("1.0.0"));
         cliOptions.add(new CliOption(PACKAGE_URL, "gdscript package URL."));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
-                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions
+                .add(CliOption
+                        .newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+                                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        String modelImport;
+        if (StringUtils.startsWithAny(name, "import", "from")) {
+            modelImport = name;
+        } else {
+            modelImport = "from ";
+            if (!"".equals(modelPackage())) {
+                modelImport += modelPackage() + ".";
+            }
+            modelImport += toModelFilename(name) + " import " + name;
+        }
+        return modelImport;
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        postProcessPattern(property.pattern, property.vendorExtensions);
+    }
+
+    /*
+     * The OpenAPI pattern spec follows the Perl convention and style of modifiers.
+     * Python does not support this in as natural a way so it needs to convert it.
+     * See https://docs.python.org/2/howto/regex.html#compilation-flags for details.
+     */
+    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
+        if (pattern != null) {
+            int i = pattern.lastIndexOf('/');
+
+            // Must follow Perl /pattern/modifiers convention
+            if (pattern.charAt(0) != '/' || i < 2) {
+                throw new IllegalArgumentException("Pattern must follow the Perl " + "/pattern/modifiers convention. "
+                        + pattern + " is not valid.");
+            }
+
+            String regex = pattern.substring(1, i).replace("'", "\\'");
+            List<String> modifiers = new ArrayList<String>();
+
+            for (char c : pattern.substring(i).toCharArray()) {
+                if (regexModifiers.containsKey(c)) {
+                    String modifier = regexModifiers.get(c);
+                    modifiers.add(modifier);
+                }
+            }
+
+            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-modifiers", modifiers);
+        }
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
     }
 
     @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
+    }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
+            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        }
+
+        return pattern;
+    }
+
+    @Override
+    public String apiFileFolder() {
+        return outputFolder + File.separatorChar + apiPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String modelFileFolder() {
+        return outputFolder + File.separatorChar + modelPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separatorChar + testFolder;
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separatorChar + testFolder;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+
+            return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        String type = null;
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
+            if (languageSpecificPrimitives.contains(type)) {
+                return type;
+            }
+        } else {
+            type = toModelName(openAPIType);
+        }
+        return type;
+    }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods
+                                   // parameters as 'final'.
+
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
+        // if it's all uppper case, convert to lower case
+        if (name.matches("^[A-Z_]*$")) {
+            name = name.toLowerCase(Locale.ROOT);
+        }
+
+        // underscore the variable name
+        // petId => pet_id
+        name = underscore(name);
+
+        // remove leading underscore
+        name = name.replaceAll("^_*", "");
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // to avoid conflicts with 'callback' parameter for async call
+        if ("callback".equals(name)) {
+            return "param_callback";
+        }
+
+        // should be the same as variable name
+        return toVarName(name);
+    }
+
+    @Override
+    public String toModelName(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods
+                                   // parameters as 'final'.
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(name)) {
+            LOGGER.warn(
+                    name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
+                    + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        // camelize the model name
+        // phone_number => PhoneNumber
+        return camelize(name);
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        // underscore the model file name
+        // PhoneNumber => phone_number
+        return underscore(dropDots(toModelName(name)));
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return "test_" + toModelFilename(name);
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        // replace - with _ e.g. created-at => created_at
+        name = name.replaceAll("-", "_");
+
+        // e.g. PhoneNumberApi.py => phone_number_api.py
+        return underscore(name + "_" + apiNameSuffix);
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return "test_" + toApiFilename(name);
+    }
+
+    @Override
+    public String toApiName(String name) {
+        return super.toApiName(name);
+    }
+
+    @Override
+    public String toApiVarName(String name) {
+        if (name.length() == 0) {
+            return "default_api";
+        }
+        return underscore(name + "_" + apiNameSuffix);
+    }
+
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty (should not occur as an
+        // auto-generated method name will be used)
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
+                    + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to "
+                    + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        return underscore(sanitizeName(operationId));
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
+    }
+
+    public void setPackageUrl(String packageUrl) {
+        this.packageUrl = packageUrl;
+    }
+
+    public String packagePath() {
+        return packageName.replace('.', File.separatorChar);
+    }
+
+    /**
+     * Generate GDScript package name from String `packageName`
+     *
+     * @param packageName Package name
+     * @return GDScript package name
+     */
+    @SuppressWarnings("static-method")
+    public String generatePackageName(String packageName) {
+        return underscore(packageName.replaceAll("[^\\w]+", ""));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        Boolean excludeTests = false;
+
+        if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
+            excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+
+        additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
+        modelPackage = packageName + "." + modelPackage;
+        apiPackage = packageName + "." + apiPackage;
+    }
+
+    private static String dropDots(String str) {
+        return str.replaceAll("\\.", "_");
     }
 
     /**
@@ -209,7 +528,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
+                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -286,7 +605,9 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String sanitizeTag(String tag) { return sanitizeName(tag); }
+    public String sanitizeTag(String tag) {
+        return sanitizeName(tag);
+    }
 
     @Override
     public String escapeQuotationMark(String input) {
@@ -298,5 +619,32 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public String escapeUnsafeCharacters(String input) {
         // remove multiline comment
         return input.replace("'''", "'_'_'");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String gdscriptPostProcessFile = System.getenv("GDSCRIPT_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(gdscriptPostProcessFile)) {
+            return; // skip if GDSCRIPT_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with gd extension
+        if ("gd".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = gdscriptPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }
