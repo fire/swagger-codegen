@@ -16,7 +16,8 @@ var request_type
 
 var busy = false
 
-{{#imports}}{{{import}}}
+{{#imports}}
+preload("../Models/{{import}}.gd")
 {{/imports}}
 
 {{#operations}}
@@ -37,7 +38,7 @@ func {{operationId}}({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}__{
     if busy: return
     busy = true
     {{#allParams}}{{^required}}var {{paramName}} = kwargs['{{paramName}}']
-    {{/required}}{{/allParams}}var req = compose_req('{{httpMethod}}', '{{{path}}}', { {{#queryParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/queryParams}} }, { {{#pathParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/pathParams}} }, { {{#formParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/formParams}} }, { {{#headerParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/headerParams}} }, { {{#bodyParams}}__{{dataType}}__dict{{#hasMore}}, {{/hasMore}}{{/bodyParams}} })
+    {{/required}}{{/allParams}}var req = compose_req('{{httpMethod}}', '{{{path}}}', { {{#queryParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/queryParams}} }, { {{#pathParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/pathParams}} }, { {{#formParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/formParams}} }, { {{#headerParams}}{{paramName}}={{paramName}}{{^-last}}, {{/-last}}{{/headerParams}} }, { {{#bodyParams}}{{dataType}}.dict{{#hasMore}}, {{/hasMore}}{{/bodyParams}} })
     request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
     pass
 

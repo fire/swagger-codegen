@@ -61,7 +61,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         modelPackage = "models";
 
         outputFolder = "generated-code" + File.separator + "gdscript";
-        modelTemplateFiles.put("model.mustache", ".gd.inc");
+        modelTemplateFiles.put("model.mustache", ".gd");
         apiTemplateFiles.put("api.mustache", ".gd");
         apiTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "gdscript-client";
@@ -142,9 +142,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        String modelImport;
-        modelImport = "@include \"";
-        modelImport += toModelFilename(name) + ".gd.inc\"";
+        String modelImport = toModelFilename(name);
         return modelImport;
     }
 
