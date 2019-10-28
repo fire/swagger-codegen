@@ -169,6 +169,10 @@ public interface CodegenConfig {
 
     boolean shouldOverwrite(String filename);
 
+    boolean allowFileAppend();
+
+    void setAllowFileAppend(boolean allowFileAppend);
+
     boolean isSkipOverwrite();
 
     void setSkipOverwrite(boolean skipOverwrite);

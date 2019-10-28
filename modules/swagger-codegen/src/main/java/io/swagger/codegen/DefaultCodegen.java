@@ -92,6 +92,7 @@ public class DefaultCodegen {
     protected List<SupportingFile> supportingFiles = new ArrayList<SupportingFile>();
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
+    protected boolean allowFileAppend;
     protected boolean removeOperationIdPrefix;
     protected boolean supportsInheritance;
     protected boolean supportsMixins;
@@ -3436,6 +3437,14 @@ public class DefaultCodegen {
 
     public void setSkipOverwrite(boolean skipOverwrite) {
         this.skipOverwrite = skipOverwrite;
+    }
+
+    public boolean allowFileAppend() {
+        return allowFileAppend;
+    }
+
+    public void setAllowFileAppend(boolean allowFileAppend) {
+        this.allowFileAppend = allowFileAppend;
     }
 
     public boolean isRemoveOperationIdPrefix() {

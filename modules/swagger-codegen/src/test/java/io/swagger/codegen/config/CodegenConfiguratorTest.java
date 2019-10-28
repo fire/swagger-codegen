@@ -111,6 +111,21 @@ public class CodegenConfiguratorTest {
     }
 
     @Test
+    public void testAllowFileAppend() throws Exception {
+        CodegenConfigurator configurator1 = new CodegenConfigurator();
+        configurator1.setAllowFileAppend(true);
+
+        ClientOptInput clientOptInput = setupAndRunGenericTest(configurator1);
+        assertTrue(clientOptInput.getConfig().allowFileAppend());
+
+        CodegenConfigurator configurator2 = new CodegenConfigurator();
+        configurator1.setAllowFileAppend(true);
+
+        clientOptInput = setupAndRunGenericTest(configurator2);
+        assertFalse(clientOptInput.getConfig().allowFileAppend());
+    }
+
+    @Test
     public void testApiPackage() throws Exception {
         final String apiPackage = "io.foo.bar.api";
         configurator.setApiPackage(apiPackage);
@@ -265,6 +280,7 @@ public class CodegenConfiguratorTest {
         assertEquals(configurator.getOutputDir(), toAbsolutePathDir("src/gen/java"));
         assertEquals(configurator.isVerbose(), true);
         assertEquals(configurator.isSkipOverwrite(), true);
+        assertEquals(configurator.allowFileAppend(), false);
         assertEquals(configurator.getTemplateDir(), toAbsolutePathDir("src/main/resources"));
         assertEquals(configurator.getAuth(), "hello:world");
         assertEquals(configurator.getApiPackage(), "io.something.api");

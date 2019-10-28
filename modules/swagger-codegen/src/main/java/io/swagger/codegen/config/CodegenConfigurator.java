@@ -44,6 +44,7 @@ public class CodegenConfigurator implements Serializable {
     private String outputDir;
     private boolean verbose;
     private boolean skipOverwrite;
+    private boolean allowFileAppend;
     private boolean removeOperationIdPrefix;
     private String templateDir;
     private String auth;
@@ -150,6 +151,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setSkipOverwrite(boolean skipOverwrite) {
         this.skipOverwrite = skipOverwrite;
+        return this;
+    }
+
+    public boolean allowFileAppend() {
+        return allowFileAppend;
+    }
+
+    public CodegenConfigurator setAllowFileAppend(boolean allowFileAppend) {
+        this.allowFileAppend = allowFileAppend;
         return this;
     }
 
@@ -392,6 +402,7 @@ public class CodegenConfigurator implements Serializable {
         config.setInputSpec(inputSpec);
         config.setOutputDir(outputDir);
         config.setSkipOverwrite(skipOverwrite);
+        config.setAllowFileAppend(allowFileAppend);
         config.setIgnoreFilePathOverride(ignoreFileOverride);
         config.setRemoveOperationIdPrefix(removeOperationIdPrefix);
 

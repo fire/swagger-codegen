@@ -241,6 +241,26 @@ public class GenerateTest {
     }
 
     @Test
+    public void testAllowFileAppend() throws Exception {
+
+        setupAndRunGenericTest("-p");
+        new FullVerifications() {
+            {
+                configurator.setAllowFileAppend(true);
+                times = 1;
+            }
+        };
+
+        setupAndRunGenericTest("--file-append");
+        new FullVerifications() {
+            {
+                configurator.setAllowFileAppend(true);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
     public void testApiPackage() throws Exception {
         final String value = "io.foo.bar.api";
         setupAndRunGenericTest("--api-package", value);

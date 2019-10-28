@@ -22,6 +22,10 @@ public abstract class AbstractGenerator {
 
     @SuppressWarnings("static-method")
     public File writeToFile(String filename, String contents) throws IOException {
+        return writeToFile(filename, contents, false);
+    }
+    @SuppressWarnings("static-method")
+    public File writeToFile(String filename, String contents, boolean append) throws IOException {
         LOGGER.info("writing file " + filename);
         File output = new File(filename);
 
@@ -30,7 +34,7 @@ public abstract class AbstractGenerator {
             parent.mkdirs();
         }
         Writer out = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(output), "UTF-8"));
+                new FileOutputStream(output, append), "UTF-8"));
 
         out.write(contents);
         out.close();

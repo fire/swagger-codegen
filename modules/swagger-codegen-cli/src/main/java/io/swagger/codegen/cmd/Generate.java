@@ -70,6 +70,11 @@ public class Generate implements Runnable {
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
+    @Option(name = {"-p", "--file-append"}, title = "file append",
+            description = "specifies new content to be append "
+                    + "if files exists and if possible during the generation.")
+    private Boolean allowFileAppend;
+
     @Option(name = {"--api-package"}, title = "api package",
             description = CodegenConstants.API_PACKAGE_DESC)
     private String apiPackage;
@@ -191,6 +196,10 @@ public class Generate implements Runnable {
 
         if (skipOverwrite != null) {
             configurator.setSkipOverwrite(skipOverwrite);
+        }
+
+        if (allowFileAppend != null) {
+            configurator.setAllowFileAppend(allowFileAppend);
         }
 
         if (isNotEmpty(spec)) {
