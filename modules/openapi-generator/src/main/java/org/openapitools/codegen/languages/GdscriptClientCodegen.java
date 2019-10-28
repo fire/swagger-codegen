@@ -35,8 +35,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         outputFolder = "generated-code" + File.separator + "gdscript";
-        modelTemplateFiles.put("model.mustache", ".zz");
-        apiTemplateFiles.put("api.mustache", ".zz");
+        modelTemplateFiles.put("model.mustache", ".gd");
+        apiTemplateFiles.put("api.mustache", ".gd");
         embeddedTemplateDir = templateDir = "gdscript-client";
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
