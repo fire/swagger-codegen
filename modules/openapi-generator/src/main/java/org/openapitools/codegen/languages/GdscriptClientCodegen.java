@@ -143,15 +143,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
-            modelImport = name;
-        } else {
-            modelImport = "from ";
-            if (!"".equals(modelPackage())) {
-                modelImport += modelPackage() + ".";
-            }
-            modelImport += toModelFilename(name) + " import " + name;
-        }
+        modelImport = "@include \"";
+        modelImport += toModelFilename(name) + ".gd.inc\"";
         return modelImport;
     }
 

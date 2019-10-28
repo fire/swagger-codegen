@@ -16,8 +16,8 @@ var request_type
 
 var busy = false
 
-# TODO generate list of model filenames
-@include "model/model_api.gd.inc"
+{{#imports}}{{{import}}}
+{{/imports}}
 
 {{#operations}}
 {{#operation}}
