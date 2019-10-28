@@ -1,0 +1,8 @@
+{{#models}}
+{{#model}}
+const {{classname}} = [{{#vars}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/vars}}]
+@define __{{classname}}__body {{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}
+@define __{{classname}}__array {{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}
+@define __{{classname}}__dict {{#vars}}{{name}}={{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}
+{{/model}}
+{{/models}}
