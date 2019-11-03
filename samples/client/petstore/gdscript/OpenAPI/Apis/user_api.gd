@@ -41,20 +41,20 @@ func create_user(User body, header = {}, auth = null, callback = null):
 
 """Creates list of users with given input array
 
-:param List[User] body: List of user object (required)
+:param Array[User] body: List of user object (required)
 """
 
-func create_users_with_array_input(List[User] body, header = {}, auth = null, callback = null):
+func create_users_with_array_input(Array[User] body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.post(base_url + "/user/createWithArray", params, header, auth, callback)
 
 """Creates list of users with given input array
 
-:param List[User] body: List of user object (required)
+:param Array[User] body: List of user object (required)
 """
 
-func create_users_with_list_input(List[User] body, header = {}, auth = null, callback = null):
+func create_users_with_list_input(Array[User] body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.post(base_url + "/user/createWithList", params, header, auth, callback)

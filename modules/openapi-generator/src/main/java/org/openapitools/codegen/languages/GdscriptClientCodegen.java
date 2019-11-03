@@ -69,13 +69,12 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("float");
-        languageSpecificPrimitives.add("List");
+        languageSpecificPrimitives.add("Array");
         languageSpecificPrimitives.add("Dictionary");
         languageSpecificPrimitives.add("bool");
         languageSpecificPrimitives.add("String");
-        languageSpecificPrimitives.add("datetime");
-        languageSpecificPrimitives.add("date");
-        languageSpecificPrimitives.add("object");
+        languageSpecificPrimitives.add("Object");
+        languageSpecificPrimitives.add("PoolByteArray");
 
         instantiationTypes.put("map", "dict");
 
@@ -85,20 +84,18 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "float");
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
-        typeMapping.put("array", "List");
+        typeMapping.put("array", "Array");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
         typeMapping.put("date", "date");
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "Object");
-        typeMapping.put("file", "file");
-        // TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "str");
-        typeMapping.put("ByteArray", "str");
+        typeMapping.put("file", "PoolByteArray");
+        typeMapping.put("binary", "PoolByteArray");
+        typeMapping.put("ByteArray", "PoolByteArray");
         // map uuid to string for the time being
-        typeMapping.put("UUID", "str");
+        typeMapping.put("UUID", "String");
 
         // from
         // https://godot.readthedocs.io/en/3.0/getting_started/scripting/gdscript/gdscript_basics.html#keywords

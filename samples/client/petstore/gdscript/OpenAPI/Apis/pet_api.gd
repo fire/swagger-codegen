@@ -27,7 +27,6 @@ var busy = false
 
 preload("../Models/api_response.gd")
 preload("../Models/pet.gd")
-preload("../Models/file.gd")
 var unirest = preload("../unirest.gd")
 
 """Add a new pet to the store
@@ -53,20 +52,20 @@ func delete_pet(int pet_id, String api_key = null, header = {}, auth = null, cal
 """Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
-:param List[String] status: Status values that need to be considered for filter (required)
+:param Array[String] status: Status values that need to be considered for filter (required)
 """
 
-func find_pets_by_status(List[String] status, header = {}, auth = null, callback = null):
+func find_pets_by_status(Array[String] status, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/pet/findByStatus", params, header, auth, callback)
 
 """Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-:param List[String] tags: Tags to filter by (required)
+:param Array[String] tags: Tags to filter by (required)
 """
 
-func find_pets_by_tags(List[String] tags, header = {}, auth = null, callback = null):
+func find_pets_by_tags(Array[String] tags, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/pet/findByTags", params, header, auth, callback)
 
@@ -105,10 +104,10 @@ func update_pet_with_form(int pet_id, String name = null, String status = null, 
 
 :param int pet_id: ID of pet to update (required)
 :param String additional_metadata: Additional data to pass to server
-:param file file: file to upload
+:param PoolByteArray file: file to upload
 """
 
-func upload_file(int pet_id, String additional_metadata = null, file file = null, header = {}, auth = null, callback = null):
+func upload_file(int pet_id, String additional_metadata = null, PoolByteArray file = null, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.post(base_url + "/pet/{petId}/uploadImage", params, header, auth, callback)
 
