@@ -85,6 +85,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
         typeMapping.put("array", "Array");
+        typeMapping.put("list", "Array");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
@@ -99,13 +100,15 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
         // from
         // https://godot.readthedocs.io/en/3.0/getting_started/scripting/gdscript/gdscript_basics.html#keywords
-        setReservedWordsLowerCase(Arrays.asList("Empty", "Identifier", "Constant", "Self", "Built-In Type",
-                "Built-In Func", "In",
+        setReservedWordsLowerCase(Arrays.asList(
                 //
-                "if", "elif", "else", "for", "do", "while", "switch (reserved)", "case (reserved)", "break", "continue",
+                "if", "elif", "else", "for", "do", "while", "switch", "case", "break", "continue",
                 "pass", "return", "match", "func", "class", "class_name", "extends", "is", "onready", "tool", "static",
                 "export", "setget", "const", "var", "as", "void", "enum", "preload", "assert", "yield", "signal",
                 "breakpoint", "rpc", "sync", "master", "puppet", "slave", "remotesync", "mastersync", "puppetsync",
+                "null",
+                "self", 
+                "in", "const",
                 //
                 "PI", "TAU", "_", "INF", "NAN", "Error", "EOF", "Cursor"));
 
