@@ -24,7 +24,7 @@ SOFTWARE.
 
 extends Node
 
-class UniHTTPClient extends HTTPClient
+class UniHTTPClient extends HTTPClient:
 
     signal connected()
     signal connecting()
@@ -116,7 +116,7 @@ var _client
 Factory method to create a new unirest object
 """
 static func create(url):
-	return new(UniHTTPClient.create_client(url))
+	return UniHTTPClient.create_client(url))
 
 """
 Constructor
@@ -541,11 +541,6 @@ class Request:
 	@return {Error}
 	"""
 	func execute():
-		_http_request.connect("request_completed", self, "_on_request_completed")
-		_http_request.body_size_limit = _options.body_size_limit
-		_http_request.max_redirects = _options.max_redirects
-		_http_request.use_threads = _options.use_threads
-
 		# Build URL
 		var url = _options.url
 		if _options.qs.size() > 0:
@@ -734,3 +729,26 @@ class Request:
 	func verify_ssl(value):
 		_options.verify_ssl = bool(value)
 		return self
+
+    """
+    Process http requests
+    """
+    func _process(float delta):
+        UniHTTPClient.poll()
+        var status : HTTPClient.Status = UniHTTPClient.get_status()
+        if status == HTTPClient.Status.STATUS_BODY:
+            if !UniHTTPClient.has_response():
+                return
+            var response_code = UniHTTPClient.get_response_code()
+            var response_headers = UniHTTPClient.get_response_headers()
+            if !UniHTTPClient.is_response_chunked() && UniHTTPClient.get_response_body_length() == 0:
+                return _on_request_completed(0, RESULT_SUCCESS, response_code, response_headers, PoolByteArray())
+            var body_length = UniHTTPClient.get_response_body_length()
+            UniHTTPClient.read_response_body_chunk()
+            
+            if body_size_limit >= 0 && body_len > body_size_limit:
+				_on_request_completed(RESULT_BODY_SIZE_LIMIT_EXCEEDED, response_code, response_headers, PoolByteArray())
+				return;
+			
+            # TODO poll and fetch chunks
+            #_on_request_completed(UniHTTPClient.get_response_body_length(), response_code, response_headers, )
