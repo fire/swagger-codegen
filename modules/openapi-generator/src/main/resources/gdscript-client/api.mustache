@@ -33,7 +33,7 @@ var unirest = preload("../unirest.gd")
 {{/allParams}}
 """
 
-func {{operationId}}({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{dataType}} {{paramName}}, {{/required}}{{#optional}}{{dataType}} {{paramName}} = null{{/optional}}{{/allParams}}{{/sortParamsByRequiredFlag}} header = {}, auth = null, callback = null):
+func {{operationId}}({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{dataType}} {{paramName}}, {{/required}}{{#optional}}{{dataType}}{{paramName}} = null{{/optional}}{{/allParams}}{{/sortParamsByRequiredFlag}}header = {}, auth = null, callback = null):
     var params : String = {}
     {{#bodyParams}}
     params = JSON.print({{paramName}}.dict){{#hasMore}}, {{/hasMore}}

@@ -34,7 +34,7 @@ This can only be done by the logged in user.
 :param User body: Created user object (required)
 """
 
-func create_user(User body,  header = {}, auth = null, callback = null):
+func create_user(User body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.post(base_url + "/user", params, header, auth, callback)
@@ -44,7 +44,7 @@ func create_user(User body,  header = {}, auth = null, callback = null):
 :param List[User] body: List of user object (required)
 """
 
-func create_users_with_array_input(List[User] body,  header = {}, auth = null, callback = null):
+func create_users_with_array_input(List[User] body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.post(base_url + "/user/createWithArray", params, header, auth, callback)
@@ -54,7 +54,7 @@ func create_users_with_array_input(List[User] body,  header = {}, auth = null, c
 :param List[User] body: List of user object (required)
 """
 
-func create_users_with_list_input(List[User] body,  header = {}, auth = null, callback = null):
+func create_users_with_list_input(List[User] body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.post(base_url + "/user/createWithList", params, header, auth, callback)
@@ -65,7 +65,7 @@ This can only be done by the logged in user.
 :param String username: The name that needs to be deleted (required)
 """
 
-func delete_user(String username,  header = {}, auth = null, callback = null):
+func delete_user(String username, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.delete(base_url + "/user/{username}", params, header, auth, callback)
 
@@ -74,7 +74,7 @@ func delete_user(String username,  header = {}, auth = null, callback = null):
 :param String username: The name that needs to be fetched. Use user1 for testing. (required)
 """
 
-func get_user_by_name(String username,  header = {}, auth = null, callback = null):
+func get_user_by_name(String username, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/user/{username}", params, header, auth, callback)
 
@@ -84,7 +84,7 @@ func get_user_by_name(String username,  header = {}, auth = null, callback = nul
 :param String password: The password for login in clear text (required)
 """
 
-func login_user(String username, String password,  header = {}, auth = null, callback = null):
+func login_user(String username, String password, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/user/login", params, header, auth, callback)
 
@@ -92,7 +92,7 @@ func login_user(String username, String password,  header = {}, auth = null, cal
 
 """
 
-func logout_user( header = {}, auth = null, callback = null):
+func logout_user(header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/user/logout", params, header, auth, callback)
 
@@ -103,7 +103,7 @@ This can only be done by the logged in user.
 :param User body: Updated user object (required)
 """
 
-func update_user(String username, User body,  header = {}, auth = null, callback = null):
+func update_user(String username, User body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.put(base_url + "/user/{username}", params, header, auth, callback)

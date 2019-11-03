@@ -35,7 +35,7 @@ var unirest = preload("../unirest.gd")
 :param Pet body: Pet object that needs to be added to the store (required)
 """
 
-func add_pet(Pet body,  header = {}, auth = null, callback = null):
+func add_pet(Pet body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.post(base_url + "/pet", params, header, auth, callback)
@@ -46,7 +46,7 @@ func add_pet(Pet body,  header = {}, auth = null, callback = null):
 :param String api_key:
 """
 
-func delete_pet(int pet_id,  header = {}, auth = null, callback = null):
+func delete_pet(int pet_id, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.delete(base_url + "/pet/{petId}", params, header, auth, callback)
 
@@ -56,7 +56,7 @@ Multiple status values can be provided with comma separated strings
 :param List[String] status: Status values that need to be considered for filter (required)
 """
 
-func find_pets_by_status(List[String] status,  header = {}, auth = null, callback = null):
+func find_pets_by_status(List[String] status, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/pet/findByStatus", params, header, auth, callback)
 
@@ -66,7 +66,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 :param List[String] tags: Tags to filter by (required)
 """
 
-func find_pets_by_tags(List[String] tags,  header = {}, auth = null, callback = null):
+func find_pets_by_tags(List[String] tags, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/pet/findByTags", params, header, auth, callback)
 
@@ -76,7 +76,7 @@ Returns a single pet
 :param int pet_id: ID of pet to return (required)
 """
 
-func get_pet_by_id(int pet_id,  header = {}, auth = null, callback = null):
+func get_pet_by_id(int pet_id, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/pet/{petId}", params, header, auth, callback)
 
@@ -85,7 +85,7 @@ func get_pet_by_id(int pet_id,  header = {}, auth = null, callback = null):
 :param Pet body: Pet object that needs to be added to the store (required)
 """
 
-func update_pet(Pet body,  header = {}, auth = null, callback = null):
+func update_pet(Pet body, header = {}, auth = null, callback = null):
     var params : String = {}
     params = JSON.print(body.dict)
     unirest.put(base_url + "/pet", params, header, auth, callback)
@@ -97,7 +97,7 @@ func update_pet(Pet body,  header = {}, auth = null, callback = null):
 :param String status: Updated status of the pet
 """
 
-func update_pet_with_form(int pet_id,  header = {}, auth = null, callback = null):
+func update_pet_with_form(int pet_id, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.post(base_url + "/pet/{petId}", params, header, auth, callback)
 
@@ -108,7 +108,7 @@ func update_pet_with_form(int pet_id,  header = {}, auth = null, callback = null
 :param file file: file to upload
 """
 
-func upload_file(int pet_id,  header = {}, auth = null, callback = null):
+func upload_file(int pet_id, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.post(base_url + "/pet/{petId}/uploadImage", params, header, auth, callback)
 
