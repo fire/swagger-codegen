@@ -34,16 +34,18 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 :param String order_id: ID of the order that needs to be deleted (required)
 """
 
-func delete_order(String order_id,  auth = null, callback = null):   
-    unirest.delete(base_url + "/store/order/{orderId}", {  }, {  }, auth, callback)
+func delete_order(String order_id,  header = {}, auth = null, callback = null):
+    var params : String = {}
+    unirest.delete(base_url + "/store/order/{orderId}", params, header, auth, callback)
 
 """Returns pet inventories by status
 
 Returns a map of status codes to quantities
 """
 
-func get_inventory( auth = null, callback = null):   
-    unirest.get(base_url + "/store/inventory", {  }, {  }, auth, callback)
+func get_inventory( header = {}, auth = null, callback = null):
+    var params : String = {}
+    unirest.get(base_url + "/store/inventory", params, header, auth, callback)
 
 """Find purchase order by ID
 
@@ -51,14 +53,17 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 :param int order_id: ID of pet that needs to be fetched (required)
 """
 
-func get_order_by_id(int order_id,  auth = null, callback = null):   
-    unirest.get(base_url + "/store/order/{orderId}", {  }, {  }, auth, callback)
+func get_order_by_id(int order_id,  header = {}, auth = null, callback = null):
+    var params : String = {}
+    unirest.get(base_url + "/store/order/{orderId}", params, header, auth, callback)
 
 """Place an order for a pet
 
 :param Order body: order placed for purchasing the pet (required)
 """
 
-func place_order(Order body,  auth = null, callback = null):   
-    unirest.post(base_url + "/store/order", {  }, { JSON.print(body.dict) }, auth, callback)
+func place_order(Order body,  header = {}, auth = null, callback = null):
+    var params : String = {}
+    params = JSON.print(body.dict)
+    unirest.post(base_url + "/store/order", params, header, auth, callback)
 
