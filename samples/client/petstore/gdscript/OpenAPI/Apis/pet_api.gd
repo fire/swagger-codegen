@@ -46,7 +46,7 @@ func add_pet(Pet body, header = {}, auth = null, callback = null):
 :param String api_key:
 """
 
-func delete_pet(int pet_id, header = {}, auth = null, callback = null):
+func delete_pet(int pet_id, String api_key = null, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.delete(base_url + "/pet/{petId}", params, header, auth, callback)
 
@@ -97,7 +97,7 @@ func update_pet(Pet body, header = {}, auth = null, callback = null):
 :param String status: Updated status of the pet
 """
 
-func update_pet_with_form(int pet_id, header = {}, auth = null, callback = null):
+func update_pet_with_form(int pet_id, String name = null, String status = null, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.post(base_url + "/pet/{petId}", params, header, auth, callback)
 
@@ -108,7 +108,7 @@ func update_pet_with_form(int pet_id, header = {}, auth = null, callback = null)
 :param file file: file to upload
 """
 
-func upload_file(int pet_id, header = {}, auth = null, callback = null):
+func upload_file(int pet_id, String additional_metadata = null, file file = null, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.post(base_url + "/pet/{petId}/uploadImage", params, header, auth, callback)
 
