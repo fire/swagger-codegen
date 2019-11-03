@@ -53,7 +53,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     public GdscriptClientCodegen() {
         super();
 
-
         supportsInheritance = true;
         modelPackage = "models";
 
@@ -65,6 +64,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("unirest.mustache", "", "unirest.gd"));
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -424,10 +424,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         this.packageName = packageName;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
@@ -455,7 +451,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName(packageName + escapeText(CodegenConstants.PROJECT_NAME));
+            setPackageName(packageName);
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);

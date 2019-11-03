@@ -26,6 +26,7 @@ var request_type
 var busy = false
 
 preload("../Models/order.gd")
+var unirest = preload("../unirest.gd")
 
 """Delete purchase order by ID
 
@@ -33,30 +34,16 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 :param String order_id: ID of the order that needs to be deleted (required)
 """
 
-signal api_delete_order(success)
-
-func delete_order(__String__order_id, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('DELETE', '/store/order/{orderId}', {  }, { order_id=order_id }, {  }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func delete_order(String order_id,  auth = null, callback = null):   
+    unirest.delete(base_url + "/store/order/{orderId}", {  }, {  }, auth, callback)
 
 """Returns pet inventories by status
 
 Returns a map of status codes to quantities
 """
 
-signal api_get_inventory(success)
-
-func get_inventory(kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('GET', '/store/inventory', {  }, {  }, {  }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func get_inventory( auth = null, callback = null):   
+    unirest.get(base_url + "/store/inventory", {  }, {  }, auth, callback)
 
 """Find purchase order by ID
 
@@ -64,78 +51,14 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 :param int order_id: ID of pet that needs to be fetched (required)
 """
 
-signal api_get_order_by_id(success)
-
-func get_order_by_id(__int__order_id, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('GET', '/store/order/{orderId}', {  }, { order_id=order_id }, {  }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func get_order_by_id(int order_id,  auth = null, callback = null):   
+    unirest.get(base_url + "/store/order/{orderId}", {  }, {  }, auth, callback)
 
 """Place an order for a pet
 
 :param Order body: order placed for purchasing the pet (required)
 """
 
-signal api_place_order(success)
+func place_order(Order body,  auth = null, callback = null):   
+    unirest.post(base_url + "/store/order", {  }, { JSON.print(body.dict) }, auth, callback)
 
-func place_order(__Order__body, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('POST', '/store/order', {  }, {  }, {  }, {  }, { Order.dict })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
-
-
-
-
-func compose_req(method, url, query_args, path_args, form_args, header_args, body_args, body = ""):
-    var req = {}
-    var final_url = base_url if base_url else ""
-
-    # path arguments
-    final_url += url.format(path_args)
-
-    # query arguments
-    if !query_args.empty():
-        final_url += "?"
-        for i in query_args:
-            if query_args[i] != null:
-                final_url += "%s=%s&" % [i, str(query_args[i]).percent_encode()]
-    req.url = final_url
-    if !body.empty() &&  !body_args.empty():
-        print("Both body_args and body are non-empty. Preferring body.")
-    if !body.empty():
-        req.data = body
-    elif !body_args.empty():
-        req.data = var2str(body_args)
-    req.headers = [
-    ].append(header_args)
-    # Authentication setting
-    req.auth_settings = []
-    return req
-    pass
-
-func get_username():
-    return username_cache
-    pass
-
-func get_user_token():
-    return token_cache
-    pass
-
-func _on_HTTPRequest_request_completed( result, response_code, headers, body ):
-    busy = false
-    emit_signal('api_' + request_type, body.get_string_from_ascii())
-    pass # replace with function body
-
-func _init():
-    var id = "123"
-    var create = "create_arg"
-    var username = "username_arg"
-    var tournament_id = "23331"
-    var req = compose_req('PUT', '/v2/tournament/{tournament_id}', {create=create, username=username}, {tournament_id=tournament_id}, {}, {}, {id=id})
-    print(req)

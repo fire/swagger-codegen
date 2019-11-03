@@ -28,21 +28,15 @@ var busy = false
 preload("../Models/api_response.gd")
 preload("../Models/pet.gd")
 preload("../Models/file.gd")
+var unirest = preload("../unirest.gd")
 
 """Add a new pet to the store
 
 :param Pet body: Pet object that needs to be added to the store (required)
 """
 
-signal api_add_pet(success)
-
-func add_pet(__Pet__body, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('POST', '/pet', {  }, {  }, {  }, {  }, { Pet.dict })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func add_pet(Pet body,  auth = null, callback = null):   
+    unirest.post(base_url + "/pet", {  }, { JSON.print(body.dict) }, auth, callback)
 
 """Deletes a pet
 
@@ -50,16 +44,8 @@ func add_pet(__Pet__body, kwargs={}):
 :param String api_key:
 """
 
-signal api_delete_pet(success)
-
-func delete_pet(__int__pet_id, kwargs={}):
-    if busy: return
-    busy = true
-    var api_key = kwargs['api_key']
-    var req = compose_req('DELETE', '/pet/{petId}', {  }, { pet_id=pet_id }, {  }, { api_key=api_key }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func delete_pet(int pet_id,  auth = null, callback = null):   
+    unirest.delete(base_url + "/pet/{petId}", { api_key=api_key }, {  }, auth, callback)
 
 """Finds Pets by status
 
@@ -67,15 +53,8 @@ Multiple status values can be provided with comma separated strings
 :param List[String] status: Status values that need to be considered for filter (required)
 """
 
-signal api_find_pets_by_status(success)
-
-func find_pets_by_status(__List[String]__status, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('GET', '/pet/findByStatus', { status=status }, {  }, {  }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func find_pets_by_status(List[String] status,  auth = null, callback = null):   
+    unirest.get(base_url + "/pet/findByStatus", {  }, {  }, auth, callback)
 
 """Finds Pets by tags
 
@@ -83,15 +62,8 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 :param List[String] tags: Tags to filter by (required)
 """
 
-signal api_find_pets_by_tags(success)
-
-func find_pets_by_tags(__List[String]__tags, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('GET', '/pet/findByTags', { tags=tags }, {  }, {  }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func find_pets_by_tags(List[String] tags,  auth = null, callback = null):   
+    unirest.get(base_url + "/pet/findByTags", {  }, {  }, auth, callback)
 
 """Find pet by ID
 
@@ -99,30 +71,16 @@ Returns a single pet
 :param int pet_id: ID of pet to return (required)
 """
 
-signal api_get_pet_by_id(success)
-
-func get_pet_by_id(__int__pet_id, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('GET', '/pet/{petId}', {  }, { pet_id=pet_id }, {  }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func get_pet_by_id(int pet_id,  auth = null, callback = null):   
+    unirest.get(base_url + "/pet/{petId}", {  }, {  }, auth, callback)
 
 """Update an existing pet
 
 :param Pet body: Pet object that needs to be added to the store (required)
 """
 
-signal api_update_pet(success)
-
-func update_pet(__Pet__body, kwargs={}):
-    if busy: return
-    busy = true
-    var req = compose_req('PUT', '/pet', {  }, {  }, {  }, {  }, { Pet.dict })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func update_pet(Pet body,  auth = null, callback = null):   
+    unirest.put(base_url + "/pet", {  }, { JSON.print(body.dict) }, auth, callback)
 
 """Updates a pet in the store with form data
 
@@ -131,17 +89,8 @@ func update_pet(__Pet__body, kwargs={}):
 :param String status: Updated status of the pet
 """
 
-signal api_update_pet_with_form(success)
-
-func update_pet_with_form(__int__pet_id, kwargs={}):
-    if busy: return
-    busy = true
-    var name = kwargs['name']
-    var status = kwargs['status']
-    var req = compose_req('POST', '/pet/{petId}', {  }, { pet_id=pet_id }, { name=name, status=status }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
+func update_pet_with_form(int pet_id,  auth = null, callback = null):   
+    unirest.post(base_url + "/pet/{petId}", {  }, {  }, auth, callback)
 
 """uploads an image
 
@@ -150,65 +99,6 @@ func update_pet_with_form(__int__pet_id, kwargs={}):
 :param file file: file to upload
 """
 
-signal api_upload_file(success)
+func upload_file(int pet_id,  auth = null, callback = null):   
+    unirest.post(base_url + "/pet/{petId}/uploadImage", {  }, {  }, auth, callback)
 
-func upload_file(__int__pet_id, kwargs={}):
-    if busy: return
-    busy = true
-    var additional_metadata = kwargs['additional_metadata']
-    var file = kwargs['file']
-    var req = compose_req('POST', '/pet/{petId}/uploadImage', {  }, { pet_id=pet_id }, { additional_metadata=additional_metadata, file=file }, {  }, {  })
-    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
-    pass
-
-
-
-
-
-func compose_req(method, url, query_args, path_args, form_args, header_args, body_args, body = ""):
-    var req = {}
-    var final_url = base_url if base_url else ""
-
-    # path arguments
-    final_url += url.format(path_args)
-
-    # query arguments
-    if !query_args.empty():
-        final_url += "?"
-        for i in query_args:
-            if query_args[i] != null:
-                final_url += "%s=%s&" % [i, str(query_args[i]).percent_encode()]
-    req.url = final_url
-    if !body.empty() &&  !body_args.empty():
-        print("Both body_args and body are non-empty. Preferring body.")
-    if !body.empty():
-        req.data = body
-    elif !body_args.empty():
-        req.data = var2str(body_args)
-    req.headers = [
-    ].append(header_args)
-    # Authentication setting
-    req.auth_settings = []
-    return req
-    pass
-
-func get_username():
-    return username_cache
-    pass
-
-func get_user_token():
-    return token_cache
-    pass
-
-func _on_HTTPRequest_request_completed( result, response_code, headers, body ):
-    busy = false
-    emit_signal('api_' + request_type, body.get_string_from_ascii())
-    pass # replace with function body
-
-func _init():
-    var id = "123"
-    var create = "create_arg"
-    var username = "username_arg"
-    var tournament_id = "23331"
-    var req = compose_req('PUT', '/v2/tournament/{tournament_id}', {create=create, username=username}, {tournament_id=tournament_id}, {}, {}, {id=id})
-    print(req)
