@@ -35,8 +35,8 @@ var unirest = preload("../unirest.gd")
 """
 
 func add_pet(Pet body, header = {}, auth = null, callback = null):
-    var params : String = {}
-    params = JSON.print(body.dict)
+    var params : String
+
     unirest.post(base_url + "/pet", params, header, auth, callback)
 
 """Deletes a pet
@@ -46,7 +46,8 @@ func add_pet(Pet body, header = {}, auth = null, callback = null):
 """
 
 func delete_pet(int pet_id, String api_key = null, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+
     unirest.delete(base_url + "/pet/{petId}", params, header, auth, callback)
 
 """Finds Pets by status
@@ -56,7 +57,13 @@ Multiple status values can be provided with comma separated strings
 """
 
 func find_pets_by_status(PoolStringArray status, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+    params += "?"
+    for i in range(0, status.size():    
+        params += "status=" + name
+        if i != status.size() - 1:
+            params += "&"
+
     unirest.get(base_url + "/pet/findByStatus", params, header, auth, callback)
 
 """Finds Pets by tags
@@ -66,7 +73,13 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 """
 
 func find_pets_by_tags(PoolStringArray tags, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+    params += "?"
+    for i in range(0, tags.size():    
+        params += "tags=" + name
+        if i != tags.size() - 1:
+            params += "&"
+
     unirest.get(base_url + "/pet/findByTags", params, header, auth, callback)
 
 """Find pet by ID
@@ -76,7 +89,8 @@ Returns a single pet
 """
 
 func get_pet_by_id(int pet_id, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+
     unirest.get(base_url + "/pet/{petId}", params, header, auth, callback)
 
 """Update an existing pet
@@ -85,8 +99,8 @@ func get_pet_by_id(int pet_id, header = {}, auth = null, callback = null):
 """
 
 func update_pet(Pet body, header = {}, auth = null, callback = null):
-    var params : String = {}
-    params = JSON.print(body.dict)
+    var params : String
+
     unirest.put(base_url + "/pet", params, header, auth, callback)
 
 """Updates a pet in the store with form data
@@ -97,7 +111,8 @@ func update_pet(Pet body, header = {}, auth = null, callback = null):
 """
 
 func update_pet_with_form(int pet_id, String name = null, String status = null, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+
     unirest.post(base_url + "/pet/{petId}", params, header, auth, callback)
 
 """uploads an image
@@ -108,6 +123,7 @@ func update_pet_with_form(int pet_id, String name = null, String status = null, 
 """
 
 func upload_file(int pet_id, String additional_metadata = null, PoolByteArray file = null, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+
     unirest.post(base_url + "/pet/{petId}/uploadImage", params, header, auth, callback)
 

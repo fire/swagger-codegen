@@ -34,10 +34,19 @@ var unirest = preload("../unirest.gd")
 """
 
 func {{operationId}}({{#requiredParams}}{{dataType}} {{paramName}}, {{/requiredParams}}{{#optionalParams}}{{dataType}} {{paramName}} = null, {{/optionalParams}}header = {}, auth = null, callback = null):
-    var params : String = {}
-    {{#bodyParams}}
-    params = JSON.print({{paramName}}.dict){{#hasMore}}, {{/hasMore}}
-    {{/bodyParams}}
+    var params : String
+{{#allParams}}
+    {{#isQueryParam}}
+    {{#hasParams}}params += "?"{{/hasParams}}
+    {{/isQueryParam}}
+    {{#isQueryParam}}
+    for i in range(0, {{paramName}}.size():    
+        params += "{{baseName}}=" + name
+        if i != {{paramName}}.size() - 1:
+            params += "&"
+    {{/isQueryParam}}
+{{/allParams}}
+
     unirest.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(base_url + "{{path}}", params, header, auth, callback)
 
 {{/operation}}

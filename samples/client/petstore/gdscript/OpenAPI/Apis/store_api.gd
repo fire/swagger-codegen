@@ -35,7 +35,8 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 """
 
 func delete_order(String order_id, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+
     unirest.delete(base_url + "/store/order/{orderId}", params, header, auth, callback)
 
 """Returns pet inventories by status
@@ -44,7 +45,8 @@ Returns a map of status codes to quantities
 """
 
 func get_inventory(header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+
     unirest.get(base_url + "/store/inventory", params, header, auth, callback)
 
 """Find purchase order by ID
@@ -54,7 +56,8 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 """
 
 func get_order_by_id(int order_id, header = {}, auth = null, callback = null):
-    var params : String = {}
+    var params : String
+
     unirest.get(base_url + "/store/order/{orderId}", params, header, auth, callback)
 
 """Place an order for a pet
@@ -63,7 +66,7 @@ func get_order_by_id(int order_id, header = {}, auth = null, callback = null):
 """
 
 func place_order(Order body, header = {}, auth = null, callback = null):
-    var params : String = {}
-    params = JSON.print(body.dict)
+    var params : String
+
     unirest.post(base_url + "/store/order", params, header, auth, callback)
 
