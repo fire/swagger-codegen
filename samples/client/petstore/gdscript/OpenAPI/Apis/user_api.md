@@ -76,7 +76,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = OpenAPI.UserApi()
-body = [OpenAPI.User()] # Array[User] | List of user object
+body = [OpenAPI.User()] # Array | List of user object
 
 try:
     # Creates list of users with given input array
@@ -89,7 +89,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Array[User]**](User.md)| List of user object | 
+ **body** | [**Array**](User.md)| List of user object | 
 
 ### Return type
 
@@ -121,7 +121,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = OpenAPI.UserApi()
-body = [OpenAPI.User()] # Array[User] | List of user object
+body = [OpenAPI.User()] # Array | List of user object
 
 try:
     # Creates list of users with given input array
@@ -134,7 +134,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Array[User]**](User.md)| List of user object | 
+ **body** | [**Array**](User.md)| List of user object | 
 
 ### Return type
 

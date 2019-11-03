@@ -258,10 +258,24 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+            if(getTypeDeclaration(inner) == "String") {
+                return "PoolStringArray";
+            } else if(getTypeDeclaration(inner) == "int") {
+                return "PoolIntArray";
+            } else if(getTypeDeclaration(inner) == "float") {
+                return "PoolRealArray";
+            } else if(getTypeDeclaration(inner) == "bool") {
+                return "PoolBoolArray";
+            } else if(getTypeDeclaration(inner) == "Color") {
+                return "PoolColorArray";
+            } else if(getTypeDeclaration(inner) == "Vector2") {
+                return "PoolVector2Array";
+            } else if(getTypeDeclaration(inner) == "Vector3") {
+                return "PoolVector3Array";
+            }
+            return getSchemaType(p);
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);

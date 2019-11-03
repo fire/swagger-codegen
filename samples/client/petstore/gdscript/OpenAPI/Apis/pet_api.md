@@ -115,7 +115,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_status**
-> Array[Pet] find_pets_by_status(status)
+> Array find_pets_by_status(status)
 
 Finds Pets by status
 
@@ -135,7 +135,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
-status = ['status_example'] # Array[String] | Status values that need to be considered for filter
+status = ['status_example'] # PoolStringArray | Status values that need to be considered for filter
 
 try:
     # Finds Pets by status
@@ -149,11 +149,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**Array[String]**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**PoolStringArray**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
-[**Array[Pet]**](Pet.md)
+[**Array**](Pet.md)
 
 ### Authorization
 
@@ -167,7 +167,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_pets_by_tags**
-> Array[Pet] find_pets_by_tags(tags)
+> Array find_pets_by_tags(tags)
 
 Finds Pets by tags
 
@@ -187,7 +187,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
-tags = ['tags_example'] # Array[String] | Tags to filter by
+tags = ['tags_example'] # PoolStringArray | Tags to filter by
 
 try:
     # Finds Pets by tags
@@ -201,11 +201,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**Array[String]**](String.md)| Tags to filter by | 
+ **tags** | [**PoolStringArray**](String.md)| Tags to filter by | 
 
 ### Return type
 
-[**Array[Pet]**](Pet.md)
+[**Array**](Pet.md)
 
 ### Authorization
 

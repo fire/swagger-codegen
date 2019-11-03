@@ -52,20 +52,20 @@ func delete_pet(int pet_id, String api_key = null, header = {}, auth = null, cal
 """Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
-:param Array[String] status: Status values that need to be considered for filter (required)
+:param PoolStringArray status: Status values that need to be considered for filter (required)
 """
 
-func find_pets_by_status(Array[String] status, header = {}, auth = null, callback = null):
+func find_pets_by_status(PoolStringArray status, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/pet/findByStatus", params, header, auth, callback)
 
 """Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-:param Array[String] tags: Tags to filter by (required)
+:param PoolStringArray tags: Tags to filter by (required)
 """
 
-func find_pets_by_tags(Array[String] tags, header = {}, auth = null, callback = null):
+func find_pets_by_tags(PoolStringArray tags, header = {}, auth = null, callback = null):
     var params : String = {}
     unirest.get(base_url + "/pet/findByTags", params, header, auth, callback)
 
