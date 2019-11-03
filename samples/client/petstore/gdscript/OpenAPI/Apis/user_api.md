@@ -1,4 +1,4 @@
-# openapi_client.UserApi
+# OpenAPI.UserApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -25,13 +25,13 @@ This can only be done by the logged in user.
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
-body = openapi_client.User() # User | Created user object
+api_instance = OpenAPI.UserApi()
+body = OpenAPI.User() # User | Created user object
 
 try:
     # Create user
@@ -70,13 +70,13 @@ Creates list of users with given input array
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
-body = [openapi_client.User()] # List[User] | List of user object
+api_instance = OpenAPI.UserApi()
+body = [OpenAPI.User()] # List[User] | List of user object
 
 try:
     # Creates list of users with given input array
@@ -115,13 +115,13 @@ Creates list of users with given input array
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
-body = [openapi_client.User()] # List[User] | List of user object
+api_instance = OpenAPI.UserApi()
+body = [OpenAPI.User()] # List[User] | List of user object
 
 try:
     # Creates list of users with given input array
@@ -162,12 +162,12 @@ This can only be done by the logged in user.
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
+api_instance = OpenAPI.UserApi()
 username = 'username_example' # String | The name that needs to be deleted
 
 try:
@@ -207,12 +207,12 @@ Get user by user name
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
+api_instance = OpenAPI.UserApi()
 username = 'username_example' # String | The name that needs to be fetched. Use user1 for testing.
 
 try:
@@ -253,12 +253,12 @@ Logs user into the system
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
+api_instance = OpenAPI.UserApi()
 username = 'username_example' # String | The user name for login
 password = 'password_example' # String | The password for login in clear text
 
@@ -301,12 +301,12 @@ Logs out current logged in user session
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
+api_instance = OpenAPI.UserApi()
 
 try:
     # Logs out current logged in user session
@@ -344,14 +344,14 @@ This can only be done by the logged in user.
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.UserApi()
+api_instance = OpenAPI.UserApi()
 username = 'username_example' # String | name that need to be deleted
-body = openapi_client.User() # User | Updated user object
+body = OpenAPI.User() # User | Updated user object
 
 try:
     # Updated user

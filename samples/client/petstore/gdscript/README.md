@@ -18,17 +18,17 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```gdscript
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
-body = openapi_client.Pet() # Pet | Pet object that needs to be added to the store
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
+body = OpenAPI.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Add a new pet to the store

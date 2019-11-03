@@ -1,4 +1,4 @@
-classname Tag
+classname OpenAPIModelTag
 const Tag = ['id', 'name']
 const body id, name
 const array id, name

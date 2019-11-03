@@ -1,4 +1,4 @@
-classname User
+classname OpenAPIModelUser
 const User = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'phone', 'user_status']
 const body id, username, first_name, last_name, email, password, phone, user_status
 const array id, username, first_name, last_name, email, password, phone, user_status

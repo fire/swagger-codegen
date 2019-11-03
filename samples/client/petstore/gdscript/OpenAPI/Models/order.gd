@@ -1,4 +1,4 @@
-classname Order
+classname OpenAPIModelOrder
 const Order = ['id', 'pet_id', 'quantity', 'ship_date', 'status', 'complete']
 const body id, pet_id, quantity, ship_date, status, complete
 const array id, pet_id, quantity, ship_date, status, complete

@@ -1,6 +1,6 @@
 {{#models}}
 {{#model}}
-classname {{classname}}
+classname {{packageName}}Model{{classname}}
 const {{classname}} = [{{#vars}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/vars}}]
 const body {{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}
 const array {{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}

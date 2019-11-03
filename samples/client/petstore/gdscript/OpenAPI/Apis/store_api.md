@@ -1,4 +1,4 @@
-# openapi_client.StoreApi
+# OpenAPI.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -21,12 +21,12 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.StoreApi()
+api_instance = OpenAPI.StoreApi()
 order_id = 'order_id_example' # String | ID of the order that needs to be deleted
 
 try:
@@ -68,18 +68,18 @@ Returns a map of status codes to quantities
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_key
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = openapi_client.StoreApi(openapi_client.ApiClient(configuration))
+api_instance = OpenAPI.StoreApi(OpenAPI.ApiClient(configuration))
 
 try:
     # Returns pet inventories by status
@@ -118,12 +118,12 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.StoreApi()
+api_instance = OpenAPI.StoreApi()
 order_id = 56 # int | ID of pet that needs to be fetched
 
 try:
@@ -164,13 +164,13 @@ Place an order for a pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = openapi_client.StoreApi()
-body = openapi_client.Order() # Order | order placed for purchasing the pet
+api_instance = OpenAPI.StoreApi()
+body = OpenAPI.Order() # Order | order placed for purchasing the pet
 
 try:
     # Place an order for a pet

@@ -1,39 +1,36 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String PACKAGE_URL = "packageUrl";
 
     protected String packageVersion = "1.0.0";
-    protected String projectName; // for setup.py, e.g. petstore-api
     protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected String packageName = "openapi_client";
+    protected String packageName = "OpenAPI";
 
     static Logger LOGGER = LoggerFactory.getLogger(GdscriptClientCodegen.class);
 
@@ -123,11 +120,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         regexModifiers.put('u', "UNICODE");
         regexModifiers.put('x', "VERBOSE");
 
-        cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "gdscript package name (convention: snake_case).")
-                .defaultValue("swgclient"));
-        cliOptions.add(
-                new CliOption(CodegenConstants.PROJECT_NAME, "gdscript project name in setup.gd (e.g. petstore-api)."));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "gdscript package name (convention: PascalCase).")
+                .defaultValue("OpenAPIClient"));
         cliOptions.add(
                 new CliOption(CodegenConstants.PACKAGE_VERSION, "gdscript package version.").defaultValue("1.0.0"));
         cliOptions.add(new CliOption(PACKAGE_URL, "gdscript package URL."));
@@ -446,17 +440,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         return packageName.replace('.', File.separatorChar);
     }
 
-    /**
-     * Generate GDScript package name from String `packageName`
-     *
-     * @param packageName Package name
-     * @return GDScript package name
-     */
-    @SuppressWarnings("static-method")
-    public String generatePackageName(String packageName) {
-        return underscore(packageName.replaceAll("[^\\w]+", ""));
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
@@ -471,7 +454,10 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         }
 
-        additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName(packageName + escapeText(CodegenConstants.PROJECT_NAME));
+        }
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 

@@ -1,4 +1,4 @@
-# openapi_client.PetApi
+# OpenAPI.PetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -23,17 +23,17 @@ Add a new pet to the store
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
-body = openapi_client.Pet() # Pet | Pet object that needs to be added to the store
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
+body = OpenAPI.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Add a new pet to the store
@@ -72,16 +72,16 @@ Deletes a pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
 pet_id = 56 # int | Pet id to delete
 api_key = 'api_key_example' # String |  (optional)
 
@@ -125,16 +125,16 @@ Multiple status values can be provided with comma separated strings
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
 status = ['status_example'] # List[String] | Status values that need to be considered for filter
 
 try:
@@ -177,16 +177,16 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
 tags = ['tags_example'] # List[String] | Tags to filter by
 
 try:
@@ -229,18 +229,18 @@ Returns a single pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure API key authorization: api_key
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to return
 
 try:
@@ -281,17 +281,17 @@ Update an existing pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
-body = openapi_client.Pet() # Pet | Pet object that needs to be added to the store
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
+body = OpenAPI.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Update an existing pet
@@ -330,16 +330,16 @@ Updates a pet in the store with form data
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
 pet_id = 56 # int | ID of pet that needs to be updated
 name = 'name_example' # String | Updated name of the pet (optional)
 status = 'status_example' # String | Updated status of the pet (optional)
@@ -383,16 +383,16 @@ uploads an image
 ```python
 from __future__ import print_function
 import time
-import openapi_client
-from openapi_client.rest import ApiException
+import OpenAPI
+from OpenAPI.rest import ApiException
 from pprint import pprint
 
 # Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi_client.Configuration()
+configuration = OpenAPI.Configuration()
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
-api_instance = openapi_client.PetApi(openapi_client.ApiClient(configuration))
+api_instance = OpenAPI.PetApi(OpenAPI.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # String | Additional data to pass to server (optional)
 file = '/path/to/file' # file | file to upload (optional)
