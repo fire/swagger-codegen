@@ -1,9 +1,8 @@
 {{#models}}
 {{#model}}
-classname {{packageName}}Model{{classname}}
-const {{classname}} = [{{#vars}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/vars}}]
-const body {{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}
-const array {{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}
-const dict {{#vars}}{{name}}={{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}
+class {{classname}} extends Reference:
+    {{#vars}}
+    var {{name}} : {{dataType}}
+    {{/vars}}
 {{/model}}
 {{/models}}

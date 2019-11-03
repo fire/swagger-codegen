@@ -1,5 +1,7 @@
-classname OpenAPIModelPet
-const Pet = ['id', 'category', 'name', 'photo_urls', 'tags', 'status']
-const body id, category, name, photo_urls, tags, status
-const array id, category, name, photo_urls, tags, status
-const dict id=id, category=category, name=name, photo_urls=photo_urls, tags=tags, status=status
+class Pet extends Reference:
+    var id : int
+    var category : Category
+    var name : String
+    var photo_urls : List[String]
+    var tags : List[Tag]
+    var status : String

@@ -1,5 +1,3 @@
-classname OpenAPIModelTag
-const Tag = ['id', 'name']
-const body id, name
-const array id, name
-const dict id=id, name=name
+class Tag extends Reference:
+    var id : int
+    var name : String
