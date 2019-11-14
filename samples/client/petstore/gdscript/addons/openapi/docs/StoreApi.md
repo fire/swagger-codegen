@@ -27,11 +27,11 @@ func _ready():
 	var store_api = store_api.new()
 	store_api.name = "store_api"
 	add_child(store_api)	
-	store_api.connect("api_delete_order", self, "api_delete_order")
+	store_api.connect("api_delete_order", self, "_on_api_delete_order")
 	store_api.base_url = "http://petstore.swagger.io/v2"
 	store_api.delete_order(order_id)
 	
-func api_delete_order(result):
+func _on_api_delete_order(result):
 	print(result)
 ```
 
@@ -73,11 +73,11 @@ func _ready():
 	var store_api = store_api.new()
 	store_api.name = "store_api"
 	add_child(store_api)	
-	store_api.connect("api_get_inventory", self, "api_get_inventory")
+	store_api.connect("api_get_inventory", self, "_on_api_get_inventory")
 	store_api.base_url = "http://petstore.swagger.io/v2"
 	store_api.get_inventory()
 	
-func api_get_inventory(result):
+func _on_api_get_inventory(result):
 	print(result)
 ```
 
@@ -116,11 +116,11 @@ func _ready():
 	var store_api = store_api.new()
 	store_api.name = "store_api"
 	add_child(store_api)	
-	store_api.connect("api_get_order_by_id", self, "api_get_order_by_id")
+	store_api.connect("api_get_order_by_id", self, "_on_api_get_order_by_id")
 	store_api.base_url = "http://petstore.swagger.io/v2"
 	store_api.get_order_by_id(order_id)
 	
-func api_get_order_by_id(result):
+func _on_api_get_order_by_id(result):
 	print(result)
 ```
 
@@ -160,11 +160,11 @@ func _ready():
 	var store_api = store_api.new()
 	store_api.name = "store_api"
 	add_child(store_api)	
-	store_api.connect("api_place_order", self, "api_place_order")
+	store_api.connect("api_place_order", self, "_on_api_place_order")
 	store_api.base_url = "http://petstore.swagger.io/v2"
 	store_api.place_order(body)
 	
-func api_place_order(result):
+func _on_api_place_order(result):
 	print(result)
 ```
 

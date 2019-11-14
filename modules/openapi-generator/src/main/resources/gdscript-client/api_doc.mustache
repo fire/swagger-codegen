@@ -27,11 +27,11 @@ func _ready():
 	var {{classVarName}} = {{classVarName}}.new()
 	{{classVarName}}.name = "{{classVarName}}"
 	add_child({{classVarName}})	
-	{{classVarName}}.connect("api_{{{operationId}}}", self, "api_{{{operationId}}}")
+	{{classVarName}}.connect("api_{{{operationId}}}", self, "_on_api_{{{operationId}}}")
 	{{classVarName}}.base_url = "{{basePath}}"
 	{{classVarName}}.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 	
-func api_{{{operationId}}}(result):
+func _on_api_{{{operationId}}}(result):
 	print(result)
 ```
 

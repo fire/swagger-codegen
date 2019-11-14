@@ -31,11 +31,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_create_user", self, "api_create_user")
+	user_api.connect("api_create_user", self, "_on_api_create_user")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.create_user(body)
 	
-func api_create_user(result):
+func _on_api_create_user(result):
 	print(result)
 ```
 
@@ -75,11 +75,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_create_users_with_array_input", self, "api_create_users_with_array_input")
+	user_api.connect("api_create_users_with_array_input", self, "_on_api_create_users_with_array_input")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.create_users_with_array_input(body)
 	
-func api_create_users_with_array_input(result):
+func _on_api_create_users_with_array_input(result):
 	print(result)
 ```
 
@@ -119,11 +119,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_create_users_with_list_input", self, "api_create_users_with_list_input")
+	user_api.connect("api_create_users_with_list_input", self, "_on_api_create_users_with_list_input")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.create_users_with_list_input(body)
 	
-func api_create_users_with_list_input(result):
+func _on_api_create_users_with_list_input(result):
 	print(result)
 ```
 
@@ -165,11 +165,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_delete_user", self, "api_delete_user")
+	user_api.connect("api_delete_user", self, "_on_api_delete_user")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.delete_user(username)
 	
-func api_delete_user(result):
+func _on_api_delete_user(result):
 	print(result)
 ```
 
@@ -209,11 +209,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_get_user_by_name", self, "api_get_user_by_name")
+	user_api.connect("api_get_user_by_name", self, "_on_api_get_user_by_name")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.get_user_by_name(username)
 	
-func api_get_user_by_name(result):
+func _on_api_get_user_by_name(result):
 	print(result)
 ```
 
@@ -253,11 +253,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_login_user", self, "api_login_user")
+	user_api.connect("api_login_user", self, "_on_api_login_user")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.login_user(username, password)
 	
-func api_login_user(result):
+func _on_api_login_user(result):
 	print(result)
 ```
 
@@ -298,11 +298,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_logout_user", self, "api_logout_user")
+	user_api.connect("api_logout_user", self, "_on_api_logout_user")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.logout_user()
 	
-func api_logout_user(result):
+func _on_api_logout_user(result):
 	print(result)
 ```
 
@@ -341,11 +341,11 @@ func _ready():
 	var user_api = user_api.new()
 	user_api.name = "user_api"
 	add_child(user_api)	
-	user_api.connect("api_update_user", self, "api_update_user")
+	user_api.connect("api_update_user", self, "_on_api_update_user")
 	user_api.base_url = "http://petstore.swagger.io/v2"
 	user_api.update_user(username, body)
 	
-func api_update_user(result):
+func _on_api_update_user(result):
 	print(result)
 ```
 

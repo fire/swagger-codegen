@@ -29,11 +29,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_add_pet", self, "api_add_pet")
+	pet_api.connect("api_add_pet", self, "_on_api_add_pet")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.add_pet(body)
 	
-func api_add_pet(result):
+func _on_api_add_pet(result):
 	print(result)
 ```
 
@@ -73,11 +73,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_delete_pet", self, "api_delete_pet")
+	pet_api.connect("api_delete_pet", self, "_on_api_delete_pet")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.delete_pet(pet_id, api_key=api_key)
 	
-func api_delete_pet(result):
+func _on_api_delete_pet(result):
 	print(result)
 ```
 
@@ -120,11 +120,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_find_pets_by_status", self, "api_find_pets_by_status")
+	pet_api.connect("api_find_pets_by_status", self, "_on_api_find_pets_by_status")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.find_pets_by_status(status)
 	
-func api_find_pets_by_status(result):
+func _on_api_find_pets_by_status(result):
 	print(result)
 ```
 
@@ -166,11 +166,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_find_pets_by_tags", self, "api_find_pets_by_tags")
+	pet_api.connect("api_find_pets_by_tags", self, "_on_api_find_pets_by_tags")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.find_pets_by_tags(tags)
 	
-func api_find_pets_by_tags(result):
+func _on_api_find_pets_by_tags(result):
 	print(result)
 ```
 
@@ -212,11 +212,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_get_pet_by_id", self, "api_get_pet_by_id")
+	pet_api.connect("api_get_pet_by_id", self, "_on_api_get_pet_by_id")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.get_pet_by_id(pet_id)
 	
-func api_get_pet_by_id(result):
+func _on_api_get_pet_by_id(result):
 	print(result)
 ```
 
@@ -256,11 +256,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_update_pet", self, "api_update_pet")
+	pet_api.connect("api_update_pet", self, "_on_api_update_pet")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.update_pet(body)
 	
-func api_update_pet(result):
+func _on_api_update_pet(result):
 	print(result)
 ```
 
@@ -300,11 +300,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_update_pet_with_form", self, "api_update_pet_with_form")
+	pet_api.connect("api_update_pet_with_form", self, "_on_api_update_pet_with_form")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.update_pet_with_form(pet_id, name=name, status=status)
 	
-func api_update_pet_with_form(result):
+func _on_api_update_pet_with_form(result):
 	print(result)
 ```
 
@@ -346,11 +346,11 @@ func _ready():
 	var pet_api = pet_api.new()
 	pet_api.name = "pet_api"
 	add_child(pet_api)	
-	pet_api.connect("api_upload_file", self, "api_upload_file")
+	pet_api.connect("api_upload_file", self, "_on_api_upload_file")
 	pet_api.base_url = "http://petstore.swagger.io/v2"
 	pet_api.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
 	
-func api_upload_file(result):
+func _on_api_upload_file(result):
 	print(result)
 ```
 
