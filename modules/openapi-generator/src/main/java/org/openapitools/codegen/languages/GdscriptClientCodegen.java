@@ -60,8 +60,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         apiTemplateFiles.put("api.mustache", ".gd");
         apiTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "gdscript-client";
-        apiPackage =  "addons" + File.separator + PROJECT_NAME + File.separator + "apis";
-        modelPackage =  "addons" + File.separator + PROJECT_NAME + File.separator + "models";
+        apiPackage =  "addons" + File.separator + packageName + File.separator + "apis";
+        modelPackage =  "addons" + File.separator + packageName + File.separator + "models";
         supportingFiles.add(new SupportingFile("api_response.mustache", "addons" + File.separator + packageName + File.separator + "models", "api_response.gd"));
         supportingFiles.add(new SupportingFile("README.mustache", "addons" + File.separator + packageName + File.separator, "README.md"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
