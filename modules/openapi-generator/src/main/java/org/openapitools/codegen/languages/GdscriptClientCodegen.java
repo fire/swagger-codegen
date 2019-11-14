@@ -30,7 +30,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected String packageName = "OpenAPI";
+    protected String packageName = "openapi";
 
     static Logger LOGGER = LoggerFactory.getLogger(GdscriptClientCodegen.class);
 
@@ -62,8 +62,8 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         embeddedTemplateDir = templateDir = "gdscript-client";
         apiPackage =  "addons" + File.separator + PROJECT_NAME + File.separator + "apis";
         modelPackage =  "addons" + File.separator + PROJECT_NAME + File.separator + "models";
-        supportingFiles.add(new SupportingFile("api_response.mustache", "addons" + File.separator + PROJECT_NAME + File.separator + "models", "api_response.gd"));
-        supportingFiles.add(new SupportingFile("README.mustache", "addons" + File.separator + PROJECT_NAME + File.separator, "README.md"));
+        supportingFiles.add(new SupportingFile("api_response.mustache", "addons" + File.separator + packageName + File.separator + "models", "api_response.gd"));
+        supportingFiles.add(new SupportingFile("README.mustache", "addons" + File.separator + packageName + File.separator, "README.md"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         
         languageSpecificPrimitives.clear();
