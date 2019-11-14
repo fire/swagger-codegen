@@ -1,9 +1,0 @@
-class User extends Reference:
-    var id : int
-    var username : String
-    var first_name : String
-    var last_name : String
-    var email : String
-    var password : String
-    var phone : String
-    var user_status : int

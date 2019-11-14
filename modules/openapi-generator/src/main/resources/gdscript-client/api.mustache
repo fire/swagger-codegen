@@ -4,11 +4,8 @@ extends HTTPRequest
 
 {{>partial_header}}
 
-export(String) var private_key
-export(String) var game_id
 export(String) var base_url
-export(bool) var ssl_validate_domain
-export(bool) var validate
+export(bool) var ssl_validate_domain = true
 
 var username_cache
 var token_cache
@@ -17,12 +14,80 @@ var request_type
 var busy = false
 
 {{#imports}}
-preload("../Models/{{import}}.gd")
+const {{classname}} = preload("../Models/{{import}}.gd")
 {{/imports}}
-var unirest = preload("../unirest.gd")
+
+func compose_req(method : String, url : String, query_args : Dictionary, path_args : Dictionary, form_args : Dictionary, header_args : Dictionary, body_args : Dictionary, body = ""):
+    var req = {}
+    var final_url = base_url if base_url else ""
+
+    # path arguments
+    final_url += url.format(path_args)
+    req.url = final_url
+
+    var method_translate = {
+        "GET": HTTPClient.METHOD_GET,
+        "HEAD": HTTPClient.METHOD_HEAD,
+        "POST": HTTPClient.METHOD_POST,
+        "PUT": HTTPClient.METHOD_PUT,
+        "DELETE": HTTPClient.METHOD_DELETE,
+        "OPTIONS": HTTPClient.METHOD_OPTIONS,
+        "TRACE": HTTPClient.METHOD_TRACE,
+        "CONNECT": HTTPClient.METHOD_CONNECT,
+        "PATCH": HTTPClient.METHOD_PATCH,
+        "MAX": HTTPClient.METHOD_MAX
+    }
+    req.method = method_translate[method]
+
+    # query arguments
+    if !query_args.empty():
+        final_url += "?"
+        for i in query_args:
+            if query_args[i] != null:
+                final_url += "%s=%s&" % [i, str(query_args[i]).percent_encode()]
+    req.url = final_url
+    if !body.empty() &&  !body_args.empty():
+        print("Both body_args and body are non-empty. Preferring body.")
+    if !body.empty():
+        req.data = body
+    elif !body_args.empty():
+        req.data = var2str(body_args)
+    else:
+        req.data = ""
+
+    req.headers = [
+       {{#hasProduces}}
+        # HTTP header `Accept`
+        'Accept: {{#produces}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/produces}}'
+        {{/hasProduces}}
+        {{#hasConsumes}}
+        # HTTP header `Content-Type`
+        'Content-Type: {{#consumes}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/consumes}}'
+        {{/hasConsumes}}
+    ]
+    var headers = []
+    var keys = form_args.keys();
+    for key in keys:
+      headers.push_back(String(key) + ": " + form_args[key]);
+    if !headers.empty():
+      req.headers.append(headers)
+    # Authentication setting
+    req.auth_settings = [{{#authMethods}}'{{name}}'{{#hasMore}},{{/hasMore}}{{/authMethods}}]
+    return req
+
+func get_username():
+    return username_cache
+
+func get_user_token():
+    return token_cache
+
+func _on_HTTPRequest_request_completed( result, response_code, headers, body ):
+    busy = false
+    emit_signal('api_' + request_type, body.get_string_from_ascii())
 
 {{#operations}}
 {{#operation}}
+
 """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
 
 {{#notes}}
@@ -33,21 +98,20 @@ var unirest = preload("../unirest.gd")
 {{/allParams}}
 """
 
-func {{operationId}}({{#requiredParams}}{{dataType}} {{paramName}}, {{/requiredParams}}{{#optionalParams}}{{dataType}} {{paramName}} = null, {{/optionalParams}}header = {}, auth = null, callback = null):
-    var params : String
-{{#allParams}}
-    {{#isQueryParam}}
-    {{#hasParams}}params += "?"{{/hasParams}}
-    {{/isQueryParam}}
-    {{#isQueryParam}}
-    for i in range(0, {{paramName}}.size():    
-        params += "{{baseName}}=" + name
-        if i != {{paramName}}.size() - 1:
-            params += "&"
-    {{/isQueryParam}}
-{{/allParams}}
+signal api_{{operationId}}(result)
 
-    unirest.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(base_url + "{{path}}", params, header, auth, callback)
-
+func {{operationId}}({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}p_{{paramName}} : {{dataType}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}kwargs={}):
+    if busy: return
+    busy = true
+    {{#allParams}}{{^required}}var {{paramName}} = kwargs['{{paramName}}']
+    {{/required}}{{/allParams}}var req = compose_req("{{httpMethod}}",
+    "{{{path}}}"{{#pathParams}}.replace('{' + '{{baseName}}' + '}', String(p_{{paramName}}).percent_encode()){{/pathParams}},
+    { {{#queryParams}}"{{paramName}}" : p_{{paramName}}{{^-last}}, {{/-last}}{{/queryParams}} },
+    { {{#pathParams}}"{{paramName}}" : p_{{paramName}}{{^-last}}, {{/-last}}{{/pathParams}} },
+    { {{#formParams}}"{{paramName}}" : {{paramName}}{{^-last}}, {{/-last}}{{/formParams}} },
+    { {{#headerParams}}"{{paramName}}" : {{paramName}}{{^-last}}, {{/-last}}{{/headerParams}} }, {{#bodyParams}}p_{{#lambda.lowercase}}{{paramName}}{{/lambda.lowercase}}.get_dict(){{#hasMore}}, {{/hasMore}}{{/bodyParams}}{{^bodyParams}} {} {{/bodyParams}})
+    connect("request_completed", self, "_on_HTTPRequest_request_completed")
+    request_type = "{{operationId}}"
+    request(req.url, req.headers, ssl_validate_domain, req.method, req.data)
 {{/operation}}
 {{/operations}}

@@ -54,18 +54,18 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         supportsInheritance = true;
-        modelPackage = "models";
 
         outputFolder = "generated-code" + File.separator + "gdscript";
         modelTemplateFiles.put("model.mustache", ".gd");
         apiTemplateFiles.put("api.mustache", ".gd");
         apiTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "gdscript-client";
-        apiPackage = File.separator + "Apis";
-        modelPackage = File.separator + "Models";
+        apiPackage =  "addons" + File.separator + PROJECT_NAME + File.separator + "apis";
+        modelPackage =  "addons" + File.separator + PROJECT_NAME + File.separator + "models";
+        supportingFiles.add(new SupportingFile("api_response.mustache", "addons" + File.separator + PROJECT_NAME + File.separator + "models", "api_response.gd"));
+        supportingFiles.add(new SupportingFile("README.mustache", "addons" + File.separator + PROJECT_NAME + File.separator, "README.md"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("unirest.mustache", "", "unirest.gd"));
-
+        
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("float");
@@ -90,7 +90,7 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
         typeMapping.put("date", "date");
-        typeMapping.put("DateTime", "datetime");
+        typeMapping.put("DateTime", "String");
         typeMapping.put("object", "Object");
         typeMapping.put("file", "PoolByteArray");
         typeMapping.put("binary", "PoolByteArray");
@@ -474,9 +474,6 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
-
-        modelPackage = packageName + "." + modelPackage;
-        apiPackage = packageName + "." + apiPackage;
     }
 
     private static String dropDots(String str) {

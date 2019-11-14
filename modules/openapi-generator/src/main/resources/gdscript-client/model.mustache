@@ -1,8 +1,15 @@
 {{#models}}
 {{#model}}
-class {{classname}} extends Reference:
-    {{#vars}}
-    var {{name}} : {{dataType}}
-    {{/vars}}
+extends Reference
+class_name {{classname}}
+
+{{#vars}}var {{name}}{{#hasMore}}
+{{/hasMore}}{{/vars}}
+
+func get_array():
+    return [ {{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}} ]
+
+func get_dict():
+    return { {{#vars}}"{{name}}": {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}} }
 {{/model}}
 {{/models}}
