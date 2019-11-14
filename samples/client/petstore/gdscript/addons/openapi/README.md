@@ -13,25 +13,7 @@ Godot Engine (www.godotengine.org)
 
 ## Getting Started
 
-Please follow the [installation procedure](#installation--usage) and then run the following:
-
-```gdscript
-extends Node2D
-
-var PetStore = load("res://Apis/pet_api.gd")
-
-func _ready():
-	var res = PetStore.new()
-	res.name = "PetStore"
-	add_child(res)	
-	res.connect("api_get_pet_by_id", self, "api_get_pet_by_id_print")
-	res.base_url = "https://petstore.swagger.io/v2"
-	res.get_pet_by_id(2)
-	
-func api_get_pet_by_id_print(success):
-	print("out")
-	print(success)
-```
+Please follow the [installation procedure](#installation--usage).
 
 ## Documentation for API Endpoints
 
@@ -92,7 +74,8 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-piecuch.pawel@gmail.com
-ernest.lee@chibifire.com
+* piecuch.pawel@gmail.com
+* ernest.lee@chibifire.com
+
 
 

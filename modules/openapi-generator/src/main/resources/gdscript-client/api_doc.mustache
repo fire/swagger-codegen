@@ -18,45 +18,21 @@ Method | HTTP request | Description
 {{{notes}}}{{/notes}}
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import {{{packageName}}}
-from {{{packageName}}}.rest import ApiException
-from pprint import pprint
-{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
-# Configure HTTP basic authorization: {{{name}}}
-configuration = {{{packageName}}}.Configuration()
-configuration.username = 'YOUR_USERNAME'
-configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isApiKey}}
-# Configure API key authorization: {{{name}}}
-configuration = {{{packageName}}}.Configuration()
-configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
-# Configure OAuth2 access token for authorization: {{{name}}}
-configuration = {{{packageName}}}.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}{{/authMethods}}
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = {{{packageName}}}.{{{classname}}}({{{packageName}}}.ApiClient(configuration))
-{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-{{/allParams}}
-{{/hasAuthMethods}}
-{{^hasAuthMethods}}
+var {{classVarName}} = load("res://addons/{{{packageName}}}/apis/{{classVarName}}.gd")
 
-# create an instance of the API class
-api_instance = {{{packageName}}}.{{{classname}}}()
-{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-{{/allParams}}
-{{/hasAuthMethods}}
-
-try:
-{{#summary}}    # {{{.}}}
-{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
-    pprint(api_response){{/returnType}}
-except ApiException as e:
-    print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+func _ready():
+	var {{classVarName}} = {{classVarName}}.new()
+	res.name = "{{classVarName}}"
+	add_child(res)	
+	res.connect("api_{{{operationId}}}", self, "api_{{{operationId}}}")
+	res.base_url = "{{basePath}}"
+	res.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+	
+func api_{{{operationId}}}(result):
+	print(result)
 ```
 
 ### Parameters

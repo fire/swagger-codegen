@@ -22,22 +22,21 @@ Create user
 This can only be done by the logged in user.
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
-body = openapi.User() # User | Created user object
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Create user
-    api_instance.create_user(body)
-except ApiException as e:
-    print("Exception when calling UserApi->create_user: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_create_user", self, "api_create_user")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.create_user(body)
+	
+func api_create_user(result):
+	print(result)
 ```
 
 ### Parameters
@@ -67,22 +66,21 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
-body = [openapi.User()] # Array | List of user object
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Creates list of users with given input array
-    api_instance.create_users_with_array_input(body)
-except ApiException as e:
-    print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_create_users_with_array_input", self, "api_create_users_with_array_input")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.create_users_with_array_input(body)
+	
+func api_create_users_with_array_input(result):
+	print(result)
 ```
 
 ### Parameters
@@ -112,22 +110,21 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
-body = [openapi.User()] # Array | List of user object
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Creates list of users with given input array
-    api_instance.create_users_with_list_input(body)
-except ApiException as e:
-    print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_create_users_with_list_input", self, "api_create_users_with_list_input")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.create_users_with_list_input(body)
+	
+func api_create_users_with_list_input(result):
+	print(result)
 ```
 
 ### Parameters
@@ -159,22 +156,21 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
-username = 'username_example' # String | The name that needs to be deleted
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Delete user
-    api_instance.delete_user(username)
-except ApiException as e:
-    print("Exception when calling UserApi->delete_user: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_delete_user", self, "api_delete_user")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.delete_user(username)
+	
+func api_delete_user(result):
+	print(result)
 ```
 
 ### Parameters
@@ -204,23 +200,21 @@ No authorization required
 Get user by user name
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
-username = 'username_example' # String | The name that needs to be fetched. Use user1 for testing.
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Get user by user name
-    api_response = api_instance.get_user_by_name(username)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_get_user_by_name", self, "api_get_user_by_name")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.get_user_by_name(username)
+	
+func api_get_user_by_name(result):
+	print(result)
 ```
 
 ### Parameters
@@ -250,24 +244,21 @@ No authorization required
 Logs user into the system
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
-username = 'username_example' # String | The user name for login
-password = 'password_example' # String | The password for login in clear text
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Logs user into the system
-    api_response = api_instance.login_user(username, password)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling UserApi->login_user: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_login_user", self, "api_login_user")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.login_user(username, password)
+	
+func api_login_user(result):
+	print(result)
 ```
 
 ### Parameters
@@ -298,21 +289,21 @@ No authorization required
 Logs out current logged in user session
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Logs out current logged in user session
-    api_instance.logout_user()
-except ApiException as e:
-    print("Exception when calling UserApi->logout_user: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_logout_user", self, "api_logout_user")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.logout_user()
+	
+func api_logout_user(result):
+	print(result)
 ```
 
 ### Parameters
@@ -341,23 +332,21 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.UserApi()
-username = 'username_example' # String | name that need to be deleted
-body = openapi.User() # User | Updated user object
+var user_api = load("res://addons/openapi/apis/user_api.gd")
 
-try:
-    # Updated user
-    api_instance.update_user(username, body)
-except ApiException as e:
-    print("Exception when calling UserApi->update_user: %s\n" % e)
+func _ready():
+	var user_api = user_api.new()
+	res.name = "user_api"
+	add_child(res)	
+	res.connect("api_update_user", self, "api_update_user")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.update_user(username, body)
+	
+func api_update_user(result):
+	print(result)
 ```
 
 ### Parameters

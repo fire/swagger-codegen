@@ -20,26 +20,21 @@ Method | HTTP request | Description
 Add a new pet to the store
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-body = openapi.Pet() # Pet | Pet object that needs to be added to the store
-
-try:
-    # Add a new pet to the store
-    api_instance.add_pet(body)
-except ApiException as e:
-    print("Exception when calling PetApi->add_pet: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_add_pet", self, "api_add_pet")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.add_pet(body)
+	
+func api_add_pet(result):
+	print(result)
 ```
 
 ### Parameters
@@ -69,27 +64,21 @@ void (empty response body)
 Deletes a pet
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-pet_id = 56 # int | Pet id to delete
-api_key = 'api_key_example' # String |  (optional)
-
-try:
-    # Deletes a pet
-    api_instance.delete_pet(pet_id, api_key=api_key)
-except ApiException as e:
-    print("Exception when calling PetApi->delete_pet: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_delete_pet", self, "api_delete_pet")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.delete_pet(pet_id, api_key=api_key)
+	
+func api_delete_pet(result):
+	print(result)
 ```
 
 ### Parameters
@@ -122,27 +111,21 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-status = ['status_example'] # PoolStringArray | Status values that need to be considered for filter
-
-try:
-    # Finds Pets by status
-    api_response = api_instance.find_pets_by_status(status)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_find_pets_by_status", self, "api_find_pets_by_status")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.find_pets_by_status(status)
+	
+func api_find_pets_by_status(result):
+	print(result)
 ```
 
 ### Parameters
@@ -174,27 +157,21 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-tags = ['tags_example'] # PoolStringArray | Tags to filter by
-
-try:
-    # Finds Pets by tags
-    api_response = api_instance.find_pets_by_tags(tags)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_find_pets_by_tags", self, "api_find_pets_by_tags")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.find_pets_by_tags(tags)
+	
+func api_find_pets_by_tags(result):
+	print(result)
 ```
 
 ### Parameters
@@ -226,29 +203,21 @@ Find pet by ID
 Returns a single pet
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure API key authorization: api_key
-configuration = openapi.Configuration()
-configuration.api_key['api_key'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['api_key'] = 'Bearer'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-pet_id = 56 # int | ID of pet to return
-
-try:
-    # Find pet by ID
-    api_response = api_instance.get_pet_by_id(pet_id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_get_pet_by_id", self, "api_get_pet_by_id")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.get_pet_by_id(pet_id)
+	
+func api_get_pet_by_id(result):
+	print(result)
 ```
 
 ### Parameters
@@ -278,26 +247,21 @@ Name | Type | Description  | Notes
 Update an existing pet
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-body = openapi.Pet() # Pet | Pet object that needs to be added to the store
-
-try:
-    # Update an existing pet
-    api_instance.update_pet(body)
-except ApiException as e:
-    print("Exception when calling PetApi->update_pet: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_update_pet", self, "api_update_pet")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.update_pet(body)
+	
+func api_update_pet(result):
+	print(result)
 ```
 
 ### Parameters
@@ -327,28 +291,21 @@ void (empty response body)
 Updates a pet in the store with form data
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-pet_id = 56 # int | ID of pet that needs to be updated
-name = 'name_example' # String | Updated name of the pet (optional)
-status = 'status_example' # String | Updated status of the pet (optional)
-
-try:
-    # Updates a pet in the store with form data
-    api_instance.update_pet_with_form(pet_id, name=name, status=status)
-except ApiException as e:
-    print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_update_pet_with_form", self, "api_update_pet_with_form")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.update_pet_with_form(pet_id, name=name, status=status)
+	
+func api_update_pet_with_form(result):
+	print(result)
 ```
 
 ### Parameters
@@ -380,29 +337,21 @@ void (empty response body)
 uploads an image
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure OAuth2 access token for authorization: petstore_auth
-configuration = openapi.Configuration()
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+var pet_api = load("res://addons/openapi/apis/pet_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.PetApi(openapi.ApiClient(configuration))
-pet_id = 56 # int | ID of pet to update
-additional_metadata = 'additional_metadata_example' # String | Additional data to pass to server (optional)
-file = NULL # PoolByteArray | file to upload (optional)
-
-try:
-    # uploads an image
-    api_response = api_instance.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PetApi->upload_file: %s\n" % e)
+func _ready():
+	var pet_api = pet_api.new()
+	res.name = "pet_api"
+	add_child(res)	
+	res.connect("api_upload_file", self, "api_upload_file")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.upload_file(pet_id, additional_metadata=additional_metadata, file=file)
+	
+func api_upload_file(result):
+	print(result)
 ```
 
 ### Parameters

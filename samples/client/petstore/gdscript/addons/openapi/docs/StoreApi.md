@@ -18,22 +18,21 @@ Delete purchase order by ID
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.StoreApi()
-order_id = 'order_id_example' # String | ID of the order that needs to be deleted
+var store_api = load("res://addons/openapi/apis/store_api.gd")
 
-try:
-    # Delete purchase order by ID
-    api_instance.delete_order(order_id)
-except ApiException as e:
-    print("Exception when calling StoreApi->delete_order: %s\n" % e)
+func _ready():
+	var store_api = store_api.new()
+	res.name = "store_api"
+	add_child(res)	
+	res.connect("api_delete_order", self, "api_delete_order")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.delete_order(order_id)
+	
+func api_delete_order(result):
+	print(result)
 ```
 
 ### Parameters
@@ -65,28 +64,21 @@ Returns pet inventories by status
 Returns a map of status codes to quantities
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# Configure API key authorization: api_key
-configuration = openapi.Configuration()
-configuration.api_key['api_key'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['api_key'] = 'Bearer'
+var store_api = load("res://addons/openapi/apis/store_api.gd")
 
-# create an instance of the API class
-api_instance = openapi.StoreApi(openapi.ApiClient(configuration))
-
-try:
-    # Returns pet inventories by status
-    api_response = api_instance.get_inventory()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->get_inventory: %s\n" % e)
+func _ready():
+	var store_api = store_api.new()
+	res.name = "store_api"
+	add_child(res)	
+	res.connect("api_get_inventory", self, "api_get_inventory")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.get_inventory()
+	
+func api_get_inventory(result):
+	print(result)
 ```
 
 ### Parameters
@@ -115,23 +107,21 @@ Find purchase order by ID
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.StoreApi()
-order_id = 56 # int | ID of pet that needs to be fetched
+var store_api = load("res://addons/openapi/apis/store_api.gd")
 
-try:
-    # Find purchase order by ID
-    api_response = api_instance.get_order_by_id(order_id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
+func _ready():
+	var store_api = store_api.new()
+	res.name = "store_api"
+	add_child(res)	
+	res.connect("api_get_order_by_id", self, "api_get_order_by_id")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.get_order_by_id(order_id)
+	
+func api_get_order_by_id(result):
+	print(result)
 ```
 
 ### Parameters
@@ -161,23 +151,21 @@ No authorization required
 Place an order for a pet
 
 ### Example
-```python
-from __future__ import print_function
-import time
-import openapi
-from openapi.rest import ApiException
-from pprint import pprint
+```gdscript
+extends Node2D
 
-# create an instance of the API class
-api_instance = openapi.StoreApi()
-body = openapi.Order() # Order | order placed for purchasing the pet
+var store_api = load("res://addons/openapi/apis/store_api.gd")
 
-try:
-    # Place an order for a pet
-    api_response = api_instance.place_order(body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->place_order: %s\n" % e)
+func _ready():
+	var store_api = store_api.new()
+	res.name = "store_api"
+	add_child(res)	
+	res.connect("api_place_order", self, "api_place_order")
+	res.base_url = "http://petstore.swagger.io/v2"
+	res.place_order(body)
+	
+func api_place_order(result):
+	print(result)
 ```
 
 ### Parameters
