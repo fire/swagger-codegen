@@ -58,13 +58,13 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "generated-code" + File.separator + "gdscript";
         modelTemplateFiles.put("model.mustache", ".gd");
         apiTemplateFiles.put("api.mustache", ".gd");
-        apiTemplateFiles.put("api_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");        
         embeddedTemplateDir = templateDir = "gdscript-client";
         apiPackage =  "addons" + File.separator + packageName + File.separator + "apis";
         modelPackage =  "addons" + File.separator + packageName + File.separator + "models";
         supportingFiles.add(new SupportingFile("api_response.mustache", "addons" + File.separator + packageName + File.separator + "models", "api_response.gd"));
         supportingFiles.add(new SupportingFile("README.mustache", "addons" + File.separator + packageName + File.separator, "README.md"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        
         
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -196,12 +196,12 @@ public class GdscriptClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath);
+        return (outputFolder + File.separator + "addons" + File.separator + packageName + File.separator + apiDocPath);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath);
+        return (outputFolder + File.separator +"addons" + File.separator + packageName + File.separator + modelDocPath);
     }
 
     @Override
