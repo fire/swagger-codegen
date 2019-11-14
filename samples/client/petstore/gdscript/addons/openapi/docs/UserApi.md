@@ -29,11 +29,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_create_user", self, "api_create_user")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.create_user(body)
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_create_user", self, "api_create_user")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.create_user(body)
 	
 func api_create_user(result):
 	print(result)
@@ -73,11 +73,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_create_users_with_array_input", self, "api_create_users_with_array_input")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.create_users_with_array_input(body)
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_create_users_with_array_input", self, "api_create_users_with_array_input")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.create_users_with_array_input(body)
 	
 func api_create_users_with_array_input(result):
 	print(result)
@@ -117,11 +117,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_create_users_with_list_input", self, "api_create_users_with_list_input")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.create_users_with_list_input(body)
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_create_users_with_list_input", self, "api_create_users_with_list_input")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.create_users_with_list_input(body)
 	
 func api_create_users_with_list_input(result):
 	print(result)
@@ -163,11 +163,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_delete_user", self, "api_delete_user")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.delete_user(username)
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_delete_user", self, "api_delete_user")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.delete_user(username)
 	
 func api_delete_user(result):
 	print(result)
@@ -207,11 +207,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_get_user_by_name", self, "api_get_user_by_name")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.get_user_by_name(username)
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_get_user_by_name", self, "api_get_user_by_name")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.get_user_by_name(username)
 	
 func api_get_user_by_name(result):
 	print(result)
@@ -251,11 +251,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_login_user", self, "api_login_user")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.login_user(username, password)
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_login_user", self, "api_login_user")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.login_user(username, password)
 	
 func api_login_user(result):
 	print(result)
@@ -296,11 +296,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_logout_user", self, "api_logout_user")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.logout_user()
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_logout_user", self, "api_logout_user")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.logout_user()
 	
 func api_logout_user(result):
 	print(result)
@@ -339,11 +339,11 @@ var user_api = load("res://addons/openapi/apis/user_api.gd")
 
 func _ready():
 	var user_api = user_api.new()
-	res.name = "user_api"
-	add_child(res)	
-	res.connect("api_update_user", self, "api_update_user")
-	res.base_url = "http://petstore.swagger.io/v2"
-	res.update_user(username, body)
+	user_api.name = "user_api"
+	add_child(user_api)	
+	user_api.connect("api_update_user", self, "api_update_user")
+	user_api.base_url = "http://petstore.swagger.io/v2"
+	user_api.update_user(username, body)
 	
 func api_update_user(result):
 	print(result)
